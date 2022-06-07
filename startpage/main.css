@@ -1,0 +1,57 @@
+/* colors and margins */
+:root {
+	--bg: #0c0c0c;
+	--fg: #c9c9c9;
+	--link-focused: #d35b7b;
+	--link-clicked: #be3131;
+	--margin-up-bottom: 90%;
+	--card-margins: 4px;
+}
+/* the rest */
+* {
+	margin: 0px;
+	padding: 0px;
+	box-sizing: border-box;
+}
+body {
+	background-color: var(--bg);
+	font-family: "scientifica", Fallback, sans-serif;
+	font-size: 25px;
+}
+/* blocks */
+.center-block {
+	height: var(--margin-up-bottom);
+	max-height: var(--margin-up-bottom);
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: space-between;
+}
+.center-block h2 {
+	color: var(--link-focused);
+	margin: 60px 0px 25px 0px;
+}
+.center-block a {
+	color: var(--fg);
+	font-weight: regular;
+}
+.center-block a:hover {
+	color: var(--link-focused);
+	font-weight: regular;
+}
+.center-block a:focus {
+	color: var(--link-clicked);
+	font-weight: regular;
+}
+.faves {
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: center;
+}
+.block {
+	padding: 24px;
+	margin: 0px;
+	display: flex;
+	flex-flow: column wrap;
+	list-style-type: square;
+	text-align: center;
+}

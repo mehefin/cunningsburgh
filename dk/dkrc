@@ -1,0 +1,45 @@
+#!/bin/sh
+logfile="$HOME/.dkrc.log"
+[ -d "$HOME/.local/share/xorg" ] && logfile="$HOME/.local/share/xorg/dkrc.log"
+: > "$logfile"
+if hash sxhkd >/dev/null 2>&1; then
+	pkill sxhkd
+	sxhkd -c "$HOME/.config/dk/sxhkdrc" &
+	picom &
+	sh $HOME/.config/polybar/init.sh
+	feh --bg-fill $HOME/your_image.jpg
+	setxkbmap -layout us,ie -option grp:alt_shift_toggle
+fi
+{
+	dkcmd set numws=6
+	dkcmd set ws=_ apply layout=tstack gap=4
+	dkcmd set \
+		ws=1 name="ains" \
+		ws=2 name="twai" \
+		ws=3 name="phreis" \
+		ws=4 name="fidwor" \
+		ws=5 name="fimf" \
+		ws=6 name="saihs"
+	dkcmd set focus_open=true focus_urgent=true focus_mouse=false
+	dkcmd set tile_tohead=0 tile_hints=false
+	dkcmd set win_minwh=50 win_minxy=10
+	dkcmd set smart_gap=false smart_border=false
+	dkcmd set mouse mod=super move=button1 resize=button3
+	dkcmd set border width=0 outer_width=0 \
+		colour \
+		focus='#717d84' \
+		unfocus='#444444' \
+		urgent='#c6cbcd' \
+		outer_focus='#717d84' \
+		outer_unfocus='#444444' \
+		outer_urgent='#c6cbcd'
+	dkcmd rule class="^stickyterm$" stick=true float=true w=1280 h=720
+	dkcmd rule class="^scratchpad$" float=true
+	dkcmd rule apply '*'
+} >> "$logfile" 2>&1
+if grep -q 'error:' "$logfile"; then
+	hash notify-send && notify-send -t 0 -u critical "dkrc has errors" \
+		"$(awk '/error:/ {sub(/^error: /, ""); gsub(/</, "\<"); print}' "$logfile")"
+	exit 1
+fi
+exit 0
